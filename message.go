@@ -91,6 +91,10 @@ type Message struct {
 	WebhookID int64 `json:"webhook_id,string"`
 
 	Member *Member `json:"member"`
+	
+	// Array of stickers objects. The stickers sent with the message.
+	// (bots currently can only receive messages with stickers, not send)
+	Stickers []*Sticker `json:"stickers"`
 }
 
 func (m *Message) GetGuildID() int64 {

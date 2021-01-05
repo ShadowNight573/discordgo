@@ -1119,3 +1119,22 @@ type InviteUser struct {
 	Discriminator string `json:"discriminator"`
 	Username      string `json:"username"`
 }
+
+type Sticker struct {
+    ID           int64       `json:"id,string"`
+    PackID       int64       `json:"pack_id,string"`
+    Name         string      `json:"name"`
+    Description  string      `json:"description"`
+    Tags         string      `json:"tags"`
+    Asset        string      `json:"asset"`
+    PreviewAsset string      `json:"preview_asset"`
+    FormatType   StickerType `json:"format_type"`
+}
+
+type StickerType int
+
+const (
+    PNG StickerType = iota + 1
+    APNG
+    LOTTIE
+)
