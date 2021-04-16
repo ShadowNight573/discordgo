@@ -15,6 +15,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -244,6 +245,14 @@ type ChannelEdit struct {
 	PermissionOverwrites []*PermissionOverwrite `json:"permission_overwrites,omitempty"`
 	ParentID             *null.String           `json:"parent_id,omitempty"`
 	RateLimitPerUser     *int                   `json:"rate_limit_per_user,omitempty"`
+}
+
+type RoleCreate struct {
+	Name        string `json:"name,omitempty"`
+	Permissions string `json:"permissions,omitempty"`
+	Color       int32  `json:"color,omitempty"`
+	Hoist       bool   `json:"hoist"`
+	Mentionable bool   `json:"mentionable"`
 }
 
 // A PermissionOverwrite holds permission overwrite data for a Channel
@@ -639,7 +648,19 @@ func (g *Game) UnmarshalJSONObject(dec *gojay.Decoder, key string) error {
 		return dec.Object(&g.TimeStamps)
 	case "assets":
 	case "application_id":
-		return dec.String(&g.ApplicationID)
+		var i interface{}
+		err := dec.Interface(&i)
+		if err != nil {
+			return err
+		}
+		switch t := i.(type) {
+		case int64:
+			g.ApplicationID = strconv.FormatInt(t, 10)
+		case int32:
+			g.ApplicationID = strconv.FormatInt(int64(t), 10)
+		case string:
+			g.ApplicationID = t
+		}
 	case "instance":
 		return dec.Int8(&g.Instance)
 	}
