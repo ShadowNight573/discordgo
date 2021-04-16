@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"io"
 	"regexp"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -106,7 +107,7 @@ func (m *Message) GetChannelID() int64 {
 }
 
 func (m *Message) Link() string {
-	return "https://discord.com/channels/" + m.GuildID + "/" + m.ChannelID + "/" + m.ID
+	return fmt.Sprintf("https://discord.com/channels/%v/%v/%v", m.GuildID, m.ChannelID, m.ID)
 }
 
 // File stores info about files you e.g. send in messages.
