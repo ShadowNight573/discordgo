@@ -105,6 +105,10 @@ func (m *Message) GetChannelID() int64 {
 	return m.ChannelID
 }
 
+func (m *Message) Link() string {
+	return "https://discord.com/channels/" + m.GuildID + "/" + m.ChannelID + "/" + m.ID
+}
+
 // File stores info about files you e.g. send in messages.
 type File struct {
 	Name        string
